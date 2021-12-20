@@ -74,4 +74,13 @@ public class Book {
         this.total = total;
         this.remain = remain;
     }
+
+    public Book(String name, String artist, String content, String major, int total, int remain) {
+        this.name = name;
+        this.artist = artist;
+        this.content = content;
+        this.major = major;
+        this.total = total;
+        this.remain = remain;
+    }
 }

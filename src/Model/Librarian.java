@@ -3,16 +3,16 @@ package Model;
 import java.sql.Date;
 
 public class Librarian {
-    private int id;
+    private String username;
     private String name;
     private Date birth;
 
-    public int getId() {
-        return id;
+    public String getUsername() {
+        return username;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getName() {
@@ -31,8 +31,8 @@ public class Librarian {
         this.birth = birth;
     }
 
-    public Librarian(int id, String name, Date birth) {
-        this.id = id;
+    public Librarian(String username, String name, Date birth) {
+        this.username = username;
         this.name = name;
         this.birth = birth;
     }

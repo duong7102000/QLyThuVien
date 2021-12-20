@@ -54,6 +54,26 @@ public class BookController {
         }
         return book;
     }
+    public static boolean updateBook(Book book){
+        Connection connection = ConnectionDB.openConnection();
+        boolean check = false;
+        int id = book.getId();
+        String name = book.getName();
+        String artist = book.getArtist();
+        String content = book.getContent();
+        String major = book.getMajor();
+        int total = book.getTotal();
+        int remain = book.getRemain();
+        try {
+            CallableStatement callableStatement = connection.prepareCall(String.format("update tbl_sach set name = N\'%s\', artist = N\'%s\', content = N\'%s\', major = N\'%s\', total = %d, remain = %d where id = %d", name, artist, content, major, total, remain, id));
+            check = !callableStatement.execute();
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            ConnectionDB.closeConnection(connection);
+        }
+        return check;
+    }
     public static boolean deleteBookById(int bookId){
         Connection connection = ConnectionDB.openConnection();
         boolean check = false;
@@ -70,6 +90,12 @@ public class BookController {
     public static boolean insertBook(Book book){
         Connection connection = ConnectionDB.openConnection();
         boolean check = false;
+        List<Book> listBook = BookController.getAllBook();
+        if (listBook == null) book.setId(1);
+        else {
+            Book bookLast = listBook.get(listBook.size() - 1);
+            book.setId(bookLast.getId() + 1);
+        }
         int id = book.getId();
         String name = book.getName();
         String artist = book.getArtist();
@@ -88,8 +114,34 @@ public class BookController {
         return check;
     }
 
+    public static boolean borrowBook(int bookId){
+        Book book = BookController.getBookById(bookId);
+        if (book == null) return false;
+        if (book.getRemain() == 0) return false;
+        int remain = book.getRemain() - 1;
+        book.setRemain(remain);
+        return BookController.updateBook(book);
+    }
+
+    public static boolean giveBackBook(int bookId){
+        Book book = BookController.getBookById(bookId);
+        if (book.getRemain() >= book.getTotal()) return false;
+        int remain = book.getRemain() + 1;
+        book.setRemain(remain);
+        return BookController.updateBook(book);
+    }
+
+    public static boolean addBook(int numberBook, int bookId){
+        Book book = BookController.getBookById(bookId);
+        int remain = book.getRemain() + numberBook;
+        book.setRemain(remain);
+        int total = book.getTotal() + numberBook;
+        book.setTotal(total);
+        return BookController.updateBook(book);
+    }
+
     public static void main(String[] args) {
-        Book book = new Book(1, "Giải tích 1", "Giáo sư A", "Sách giải tích cơ bản", "Toán học", 50, 50);
-        System.out.println(BookController.insertBook(book));
+        Book book = new Book(1, "Giải tích 2", "Giáo sư A", "Sách giải tích cơ bản", "Toán học", 50, 50);
+        System.out.println(BookController.addBook(1, 1));
     }
 }
