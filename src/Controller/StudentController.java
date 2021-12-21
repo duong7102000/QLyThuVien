@@ -1,6 +1,8 @@
 package Controller;
+import Model.Book;
 import Model.Student;
 import Util.ConnectionDB;
+import Util.NormalizeString;
 
 import java.sql.*;
 import java.util.List;
@@ -69,6 +71,18 @@ public class StudentController {
             ConnectionDB.closeConnection(connection);
         }
         return check;
+    }
+
+    public static List<Student> searchStudentByName(String studentName){
+        List<Student> listStudentResult = null;
+        List<Student> listStudent = StudentController.getAllStudent();
+        for (Student student:
+                listStudent) {
+            if (NormalizeString.normalizeSearchString(student.getFullName()).contains(NormalizeString.normalizeSearchString(studentName))){
+                listStudentResult.add(student);
+            }
+        }
+        return listStudentResult;
     }
 
     public static void main(String[] args) {

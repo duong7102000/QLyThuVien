@@ -2,6 +2,7 @@ package Controller;
 
 import Model.Book;
 import Util.ConnectionDB;
+import Util.NormalizeString;
 
 import java.sql.*;
 import java.util.List;
@@ -138,6 +139,18 @@ public class BookController {
         int total = book.getTotal() + numberBook;
         book.setTotal(total);
         return BookController.updateBook(book);
+    }
+
+    public static List<Book> searchBookByName(String bookName){
+        List<Book> listBookResult = null;
+        List<Book> listBook = BookController.getAllBook();
+        for (Book book:
+             listBook) {
+            if (NormalizeString.normalizeSearchString(book.getName()).contains(NormalizeString.normalizeSearchString(bookName))){
+                listBookResult.add(book);
+            }
+        }
+        return listBookResult;
     }
 
     public static void main(String[] args) {

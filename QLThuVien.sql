@@ -54,13 +54,13 @@ DROP TABLE IF EXISTS `tbl_phieumuon`;
 CREATE TABLE `tbl_phieumuon` (
   `id_phieumuon` int NOT NULL,
   `username_sinhvien` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
-  `username_thuthu` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `username_thuthu` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `date_start` date NOT NULL,
   `date_end` date NOT NULL,
   `deposit` float NOT NULL,
-  PRIMARY KEY (`id_phieumuon`,`username_sinhvien`,`username_thuthu`),
+  PRIMARY KEY (`id_phieumuon`,`username_sinhvien`),
   KEY `fk_tbl_phieumuon_1_idx` (`username_sinhvien`),
-  KEY `fk_tbl_phieumuon_2_idx` (`username_thuthu`),
+  KEY `FK_username_thuthu_phieumuon` (`username_thuthu`),
   CONSTRAINT `FK_username_sinhvien_phieumuon` FOREIGN KEY (`username_sinhvien`) REFERENCES `tbl_taikhoan` (`username`),
   CONSTRAINT `FK_username_thuthu_phieumuon` FOREIGN KEY (`username_thuthu`) REFERENCES `tbl_taikhoan` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
@@ -194,4 +194,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-12-20 11:14:19
+-- Dump completed on 2021-12-21 15:51:00
