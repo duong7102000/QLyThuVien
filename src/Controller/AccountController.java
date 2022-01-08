@@ -34,7 +34,7 @@ public class AccountController {
         Account account = null;
         try {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(String.format("select * from tbl_taikhoan where username = %s", username));
+            ResultSet resultSet = statement.executeQuery(String.format("select * from tbl_taikhoan where username = \'%s\'", username));
             if (resultSet.next()){
                 String password = resultSet.getString("password");
                 String position = resultSet.getString("position");
@@ -85,7 +85,7 @@ public class AccountController {
     public static Account logIn(String username, String password){
         Account account = AccountController.getAccountByUsername(username);
         if (account == null) return null;
-        if (account.getPassword() == password) return account;
+        if (account.getPassword().equals(password)) return account;
         else return null;
     }
 
@@ -97,10 +97,5 @@ public class AccountController {
             account.setPassword(newPass);
             return updateAccount(account);
         }
-    }
-
-    public static void main(String[] args) {
-        Account account = new Account("Admin", "admin", "admin");
-        System.out.println(AccountController.insertAccount(account));
     }
 }

@@ -5,12 +5,13 @@ import Util.ConnectionDB;
 import Util.NormalizeString;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class StudentController {
     public static List<Student> getAllStudent(){
         Connection connection = ConnectionDB.openConnection();
-        List<Student> listStudent = null;
+        List<Student> listStudent = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("select * from tbl_sinhvien");
@@ -52,8 +53,7 @@ public class StudentController {
         }
         return check;
     }
-
-    public static boolean updateStudent(Student student){
+    public static Student updateStudent(Student student){
         Connection connection = ConnectionDB.openConnection();
         boolean check = false;
         String username = student.getUsername();
@@ -70,7 +70,16 @@ public class StudentController {
         } finally {
             ConnectionDB.closeConnection(connection);
         }
-        return check;
+        Student student1 = null;
+        List<Student> listStudent = getAllStudent();
+        for (Student std:
+                listStudent) {
+            if (std.getUsername().equals(student.getUsername())){
+                student1 = std;
+                break;
+            }
+        }
+        return student1;
     }
 
     public static List<Student> searchStudentByName(String studentName){
@@ -86,8 +95,8 @@ public class StudentController {
     }
 
     public static void main(String[] args) {
-        Date date = Date.valueOf("2000-10-7");
-        Student student = new Student("duongdt", "Đào Tùng Dương 1", date, "Hải Dương", "Khoa học máy tính", "IT1-04-K63");
-        System.out.println(StudentController.updateStudent(student));
+//        Date date = Date.valueOf("2000-10-7");
+//        Student student = new Student("duongdt", "Đào Tùng Dương 1", date, "Hải Dương", "Khoa học máy tính", "IT1-04-K63");
+        System.out.println(getAllStudent());
     }
 }
