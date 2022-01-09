@@ -4,12 +4,13 @@ import Model.CallCard;
 import Util.ConnectionDB;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CallCardController {
     public static List<CallCard> getAllCallCard(){
         Connection connection = ConnectionDB.openConnection();
-        List<CallCard> listCallCard = null;
+        List<CallCard> listCallCard = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("select * from tbl_phieumuon");
@@ -31,7 +32,7 @@ public class CallCardController {
         return listCallCard;
     }
 
-    public static boolean insertCallCard(CallCard callCard){
+    public static int insertCallCard(CallCard callCard){
         boolean check = false;
         Connection connection = ConnectionDB.openConnection();
         List<CallCard> listCallCard = CallCardController.getAllCallCard();
@@ -51,7 +52,7 @@ public class CallCardController {
         } finally {
             ConnectionDB.closeConnection(connection);
         }
-        return check;
+        return id;
     }
 
     public static void main(String[] args) {

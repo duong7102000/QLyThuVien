@@ -4,12 +4,13 @@ import Model.CallCardDetail;
 import Util.ConnectionDB;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CallCardDetailController {
     public static List<CallCardDetail> getAllCallCardDetail(){
         Connection connection = ConnectionDB.openConnection();
-        List<CallCardDetail> listCallCardDetail = null;
+        List<CallCardDetail> listCallCardDetail = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("select * from tbl_chitietphieumuon");

@@ -5,12 +5,13 @@ import Util.ConnectionDB;
 import Util.NormalizeString;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BookController {
     public static List<Book> getAllBook(){
         Connection connection = ConnectionDB.openConnection();
-        List<Book> listBook = null;
+        List<Book> listBook = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("select * from tbl_sach");
@@ -142,8 +143,9 @@ public class BookController {
     }
 
     public static List<Book> searchBookByName(String bookName){
-        List<Book> listBookResult = null;
+        List<Book> listBookResult = new ArrayList<>();
         List<Book> listBook = BookController.getAllBook();
+        if (bookName == "") return listBook;
         for (Book book:
              listBook) {
             if (NormalizeString.normalizeSearchString(book.getName()).contains(NormalizeString.normalizeSearchString(bookName))){
@@ -155,6 +157,5 @@ public class BookController {
 
     public static void main(String[] args) {
         Book book = new Book(1, "Giải tích 2", "Giáo sư A", "Sách giải tích cơ bản", "Toán học", 50, 50);
-        System.out.println(BookController.addBook(1, 1));
     }
 }
