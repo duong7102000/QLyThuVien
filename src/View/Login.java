@@ -1,6 +1,7 @@
 package View;
 
 import Model.Account;
+import Model.Librarian;
 import Model.Student;
 
 import javax.swing.*;
@@ -10,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import static Controller.AccountController.logIn;
+import static Controller.LibrarianController.getAllLibrarian;
 import static Controller.StudentController.getAllStudent;
 
 public class Login extends JDialog{
@@ -49,7 +51,17 @@ public class Login extends JDialog{
                     new StudentForm(null, student);
                 }
                 else if(account.getPosition().equals("librarian")){
-
+                    Librarian librarian = null;
+                    List<Librarian> listLibrarian = getAllLibrarian();
+                    for (Librarian l:
+                         listLibrarian) {
+                        if (l.getUsername().equals(account.getUsername())){
+                            librarian = l;
+                            break;
+                        }
+                    }
+                    dispose();
+                    new LibrarianForm(null, librarian);
                 }
                 else if(account.getPosition().equals("admin")){
                     dispose();

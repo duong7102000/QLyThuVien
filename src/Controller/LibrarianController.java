@@ -2,12 +2,13 @@ package Controller;
 import Model.Librarian;
 import Util.ConnectionDB;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class LibrarianController {
     public static List<Librarian> getAllLibrarian(){
         Connection connection = ConnectionDB.openConnection();
-        List<Librarian> listLibrarian = null;
+        List<Librarian> listLibrarian = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("select * from tbl_thuthu");

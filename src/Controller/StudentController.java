@@ -83,7 +83,7 @@ public class StudentController {
     }
 
     public static List<Student> searchStudentByName(String studentName){
-        List<Student> listStudentResult = null;
+        List<Student> listStudentResult = new ArrayList<>();
         List<Student> listStudent = StudentController.getAllStudent();
         for (Student student:
                 listStudent) {
