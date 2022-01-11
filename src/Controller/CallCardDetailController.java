@@ -50,4 +50,21 @@ public class CallCardDetailController {
         }
         return check;
     }
+
+    public static void updateCallCardDetail(CallCardDetail callCardDetail){
+        int callCardId = callCardDetail.getCallCardId();
+        int bookId = callCardDetail.getBookId();
+        Date borrowDate = callCardDetail.getBorrowDate();
+        Date returnDate = callCardDetail.getReturnDate();
+        float forfeit = callCardDetail.getForfeit();
+        Connection connection = ConnectionDB.openConnection();
+        try{
+            CallableStatement callableStatement = connection.prepareCall(String.format("update tbl_chitietphieumuon set date_borrow = \'%s\', date_return = \'%s\', forfeit = %f where id_phieumuon = %d and id_sach = %d", borrowDate.toString(), returnDate.toString(), forfeit, callCardId, bookId));
+            callableStatement.execute();
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            ConnectionDB.closeConnection(connection);
+        }
+    }
 }

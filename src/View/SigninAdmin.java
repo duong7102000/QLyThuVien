@@ -42,6 +42,7 @@ public class SigninAdmin extends JDialog{
                     insertLibrarian(librarian);
                     JOptionPane.showMessageDialog(SigninAdmin.this, "Đăng ký thành công!");
                     dispose();
+                    new Login(null);
                 }
             }
         });

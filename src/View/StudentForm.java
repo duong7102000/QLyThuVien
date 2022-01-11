@@ -32,6 +32,7 @@ public class StudentForm extends JDialog{
     private JButton borrowButton;
     private JTable table3;
     private JButton clearButton;
+    private JButton reloadButton;
 
     public StudentForm(JFrame parent, Student student){
         super(parent);
@@ -155,6 +156,9 @@ public class StudentForm extends JDialog{
                 Integer id = callCard.getId();
                 String start_date = callCard.getStartDate().toString();
                 String end_date = callCard.getEndDate().toString();
+                if (end_date.equals("2001-01-01")){
+                    end_date = null;
+                }
                 Float deposit = callCard.getDeposit();
                 Object[] row = new Object[]{id, start_date, end_date, deposit};
                 defaultTableModel3.addRow(row);
@@ -172,7 +176,8 @@ public class StudentForm extends JDialog{
         borrowButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                String returnDate = JOptionPane.showInputDialog("Mời bạn nhập ngày hẹn trả (yyyy-mm-dd):");
+                JOptionPane.showMessageDialog(StudentForm.this, "Xác nhận mượn sách!");
+                String returnDate = "2001-01-01";
                 Date date = Date.valueOf(returnDate);
                 CallCard callCard = new CallCard(student.getUsername(), "", getCurrentDate(), date, 10000);
                 int id = insertCallCard(callCard);
@@ -180,6 +185,11 @@ public class StudentForm extends JDialog{
                     int bookId = (int) defaultTableModel2.getValueAt(count, 0);
                     CallCardDetail callCardDetail = new CallCardDetail(id, bookId, getCurrentDate(), date, 0);
                     insertCallCardDetail(callCardDetail);
+                }
+                int rows = defaultTableModel2.getRowCount();
+                for(int i = rows - 1; i >=0; i--)
+                {
+                    defaultTableModel2.removeRow(i);
                 }
             }
         });
@@ -190,6 +200,31 @@ public class StudentForm extends JDialog{
                 for(int i = rows - 1; i >=0; i--)
                 {
                     defaultTableModel2.removeRow(i);
+                }
+            }
+        });
+        reloadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                int rows = defaultTableModel3.getRowCount();
+                for(int i = rows - 1; i >=0; i--)
+                {
+                    defaultTableModel3.removeRow(i);
+                }
+                List<CallCard> listCallCard = getAllCallCard();
+                for (CallCard callCard:
+                        listCallCard) {
+                    if(student.getUsername().equals(callCard.getStudentUsername())){
+                        Integer id = callCard.getId();
+                        String start_date = callCard.getStartDate().toString();
+                        String end_date = callCard.getEndDate().toString();
+                        if (end_date.equals("2001-01-01")){
+                            end_date = null;
+                        }
+                        Float deposit = callCard.getDeposit();
+                        Object[] row = new Object[]{id, start_date, end_date, deposit};
+                        defaultTableModel3.addRow(row);
+                    }
                 }
             }
         });

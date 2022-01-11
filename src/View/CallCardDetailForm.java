@@ -37,6 +37,9 @@ public class CallCardDetailForm extends JDialog{
                 String bookName = book.getName();
                 String borrow_date = c.getBorrowDate().toString();
                 String return_date = c.getReturnDate().toString();
+                if (return_date.equals("2001-01-01")){
+                    return_date = null;
+                }
                 Float forfeit = c.getForfeit();
                 Object[] row = new Object[]{bookName, borrow_date, return_date, forfeit};
                 defaultTableModel.addRow(row);

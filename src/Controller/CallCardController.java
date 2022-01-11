@@ -55,6 +55,24 @@ public class CallCardController {
         return id;
     }
 
+    public static void updateCallCard(CallCard callCard){
+        Connection connection = ConnectionDB.openConnection();
+        int id = callCard.getId();
+        String librarianUsername = callCard.getLibrarianUsername();
+        String studentUsername = callCard.getStudentUsername();
+        Date startDate = callCard.getStartDate();
+        Date endDate = callCard.getEndDate();
+        Float deposit = callCard.getDeposit();
+        try{
+            CallableStatement callableStatement = connection.prepareCall(String.format("update tbl_phieumuon set username_sinhvien = \'%s\', username_thuthu = \'%s\', date_start = \'%s\', date_end = \'%s\', deposit = %f where id_phieumuon = %d", studentUsername, librarianUsername, startDate.toString(), endDate.toString(), deposit, id));
+            callableStatement.execute();
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            ConnectionDB.closeConnection(connection);
+        }
+    }
+
     public static void main(String[] args) {
         Date startDate = Date.valueOf("2021-12-20");
         Date endDate = Date.valueOf("2021-12-27");
